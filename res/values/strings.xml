@@ -7,8 +7,8 @@
     <string name="title_activity_list">Trip to London</string>
     <string name="title_activity_my_list">MyListActivity</string>
     <string name="logout">Logout</string>
-    <string name="login">Log in to Evernote</string>
+    <string name="login">Login with Evernote</string>
     <string name="map">Map</string>
-    <string name="map_activity">MapActivity</string>
+    <string name="map_activity">Map</string>
 
 </resources>
