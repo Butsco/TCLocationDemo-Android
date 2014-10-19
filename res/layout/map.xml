@@ -8,7 +8,7 @@
 		android:id="@+id/map"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		initExtent = "-1.3296373526814876E7 3930962.41823043 -1.2807176545789773E7 4201243.7502468005">
+		initExtent = "-23043.13459 6715871 -8905.55 6704856.00">
 	</com.esri.android.map.MapView>
 
 </LinearLayout>
