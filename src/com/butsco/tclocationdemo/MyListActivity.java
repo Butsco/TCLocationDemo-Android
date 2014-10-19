@@ -32,6 +32,7 @@ public class MyListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.note_list);
 		
         mEvernoteSession = MyEvernoteSession.getInstance(this);
         
@@ -65,6 +66,10 @@ public class MyListActivity extends ListActivity {
 		    }
 	      	Intent intent = new Intent(this, MainActivity.class);
 	    	startActivity(intent);
+		}
+		if (id == R.id.map){
+          	Intent intent = new Intent(this, MapActivity.class);
+        	startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TCLocationDemo</string>
+    <string name="app_name">TravelNote</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_list">Trip to London</string>
     <string name="title_activity_my_list">MyListActivity</string>
     <string name="logout">Logout</string>
     <string name="login">Log in to Evernote</string>
+    <string name="map">Map</string>
+    <string name="map_activity">MapActivity</string>
 
 </resources>
