@@ -1,37 +1,44 @@
 package com.butsco.tclocationdemo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.evernote.client.android.EvernoteSession;
 import com.evernote.client.android.InvalidAuthenticationException;
+import com.evernote.client.android.OnClientCallback;
+import com.evernote.edam.notestore.NoteFilter;
+import com.evernote.edam.notestore.NoteList;
+import com.evernote.edam.type.Note;
+import com.evernote.edam.type.NoteAttributes;
+import com.evernote.edam.type.Notebook;
+import com.evernote.thrift.transport.TTransportException;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 
 public class MyListActivity extends ListActivity {
 
 	private static final String TAG = "ListActivity";
 	
 	protected EvernoteSession mEvernoteSession;
+	private String guid;
+    private ArrayList<Note> notesList = new ArrayList<Note>();
+    private NoteAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
         mEvernoteSession = MyEvernoteSession.getInstance(this);
-
-        String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2" };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_1, values);
-        setListAdapter(adapter);
-
+        
+        getNotebookGuid("First Notebook");
+        
+        mAdapter = new NoteAdapter(this, notesList);
+        setListAdapter(mAdapter);
 	}
 
 	@Override
@@ -60,5 +67,68 @@ public class MyListActivity extends ListActivity {
 	    	startActivity(intent);
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public String getNotebookGuid(String name){
+		final String notebookName = name;
+		final OnClientCallback<List<Notebook>> callback = new OnClientCallback<List<Notebook>>(){
+			@Override
+			public void onSuccess(List<Notebook> notebooks){
+                Log.d(TAG, "Got notebooks");
+                for (Notebook notebook : notebooks) {
+                  if(notebook.getName().equals(notebookName)){
+                	  Log.d(TAG, "Found correct notebook");
+                	  guid = notebook.getGuid();
+                	  listNotes();
+                  }
+                }
+			}
+
+			@Override
+			public void onException(Exception exception) {
+			    Log.e(TAG, "Error retrieving notebooks", exception);
+            }
+		};
+		try {
+			mEvernoteSession.getClientFactory().createNoteStoreClient().listNotebooks(callback);
+		} catch (TTransportException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return guid;
+	}
+	
+	public void listNotes(){
+		NoteFilter filter = new NoteFilter();
+	    filter.setNotebookGuid(guid);
+	    int offset = 0;
+	    int limit = 100;
+	    final OnClientCallback<NoteList> callback = new OnClientCallback<NoteList>(){
+            @Override
+            public void onSuccess(NoteList data) {
+            	Log.d(TAG, "Got notes");
+                for (Note note : data.getNotes()) {
+                    String title = note.getTitle();
+                    NoteAttributes attr = note.getAttributes();
+                    Log.d(TAG, title);
+                    Log.d(TAG, "Lattitude: " + attr.getLatitude());
+                    Log.d(TAG, "Lattitude: " + attr.getLongitude());
+                    notesList.add(note);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onException(Exception exception) {
+			    Log.e(TAG, "Error retrieving notebooks", exception);
+            }
+	    };
+	    
+		try {
+			mEvernoteSession.getClientFactory().createNoteStoreClient().findNotes(filter, offset, limit, callback);			
+		} catch (TTransportException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
