@@ -36,7 +36,7 @@ public class MyListActivity extends ListActivity {
 		
         mEvernoteSession = MyEvernoteSession.getInstance(this);
         
-        getNotebookGuid("First Notebook");
+        getNotebookGuid("London Trip");
         
         mAdapter = new NoteAdapter(this, notesList);
         setListAdapter(mAdapter);

@@ -27,10 +27,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         
         mEvernoteSession = MyEvernoteSession.getInstance(this);
-        if (mEvernoteSession.isLoggedIn()==true){
-          	Intent intent = new Intent(this, MyListActivity.class);
-        	startActivity(intent);
-        }
         
         return true;
     }
@@ -48,7 +44,12 @@ public class MainActivity extends Activity {
     }
     
     public void login(View view){
-    	mEvernoteSession.authenticate(this);
+        if (mEvernoteSession.isLoggedIn()==true){
+          	Intent intent = new Intent(this, NotebookActivity.class);
+        	startActivity(intent);
+        } else {
+        	mEvernoteSession.authenticate(this);
+        }
     }
     
     @Override
@@ -58,7 +59,7 @@ public class MainActivity extends Activity {
         // Update UI when oauth activity returns result
         case EvernoteSession.REQUEST_CODE_OAUTH:
           if (resultCode == Activity.RESULT_OK) {
-          	Intent intent = new Intent(this, MyListActivity.class);
+          	Intent intent = new Intent(this, NotebookActivity.class);
         	startActivity(intent);
           }
           break;

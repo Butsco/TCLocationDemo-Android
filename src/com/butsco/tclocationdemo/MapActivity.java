@@ -41,7 +41,7 @@ public class MapActivity extends Activity {
 		
 		mEvernoteSession = MyEvernoteSession.getInstance(this);
         
-        getNotebookGuid("First Notebook");
+        getNotebookGuid("London Trip");
 		
 		// Retrieve the map and initial extent from XML layout
 		mMapView = (MapView)findViewById(R.id.map);

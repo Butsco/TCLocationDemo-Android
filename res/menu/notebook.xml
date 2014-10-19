@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.butsco.tclocationdemo.NotebookActivity" >
+
+    <item android:id="@+id/logout"
+          android:icon="@drawable/ic_fa_sign_out"
+          android:title="@string/logout"
+          android:showAsAction="always" />
+
+</menu>
